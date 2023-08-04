@@ -28,7 +28,11 @@ class Game:
     def game_over(self):
         #JEU A ZEROS
         self.all_monsters =  pygame.sprite.Group() #J\'ECRASE LE GROUPE DE MONSTRE
+        self.comet_event.all_comets = pygame.sprite.Group() #J\'ECRASE LE GROUPE DE COMET
+        self.comet_event.reset_percent() #BARRE DE COMMETTE A 0
+        self.player.all_projectile = pygame.sprite.Group() #J\'ECRASE LE GROUPE DE PROJECTIL
         self.player.health = self.player.max_health #RECHARGE LA VIE DU JOUEUR
+
         self.is_playing = False #REMETTRE LE JEU EN ATTENTE
     def update(self, screen):
         # RECUPERATION DES PROJECTILES DU JOUEUR

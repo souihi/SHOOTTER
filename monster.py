@@ -24,6 +24,12 @@ class Monster(pygame.sprite.Sprite):
             self.rect.x = 1000 + random.randint(0, 300)
             self.velocity = random.randint(1, 3)
             self.health = self.max_health
+        #VERIFICATION DE LA BARRE COMETE EST PLEINE
+        if self.game.comet_event.is_full_loaded():
+            #RETIRER DU JEU
+            self.game.all_monsters.remove(self)
+            # APPEL DE LA METHODE DECLANCHEMENT DE LA PLUIE DE COMET
+            self.game.comet_event.attempt_fall()
 
 
 

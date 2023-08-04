@@ -9,8 +9,10 @@ class CometFallEvent:
         super().__init__()
         # CREATION D\'UN COMPTEUR LORS DU CHARGEMENT
         self.percent = 0
-        self.percent_speed = 1
+        self.percent_speed = 0.1
         self.game = game
+        self.fall_mode = False
+
         # GROUPE DE SPRITE POUR STOCKER LES COMETES
         self.all_comets = pygame.sprite.Group()
 
@@ -24,21 +26,22 @@ class CometFallEvent:
         self.percent = 0
 
     def meteor_fall(self):
-        # APPARITION BOULE DE FEU
-        self.all_comets.add(Comet(self))
+            for i in range(1,20):
+                # APPARITION BOULE DE FEU
+                self.all_comets.add(Comet(self))
 
     def attempt_fall(self):
-        # LA JAUGE D\'EVENEMENT EST TOTALEMENT CHARGE
-        if self.is_full_loaded():
+        # LA JAUGE D\'EVENEMENT EST TOTALEMENT CHARGE ET LE GROUPE DE MONSTRE = 0
+        if self.is_full_loaded() and len(self.game.all_monsters) == 0:
             self.meteor_fall()
             # print("Pluie de comet")
-            self.reset_percent()
+
+            self.fall_mode = True #ACTIVER L\'EVENEMENT
 
     def update_bar(self, surface):
         # AJOUT DU POURCENTAGE A LA BARRE
         self.add_percent()
-        # APPEL DE LA METHODE DECLANCHEMENT DE LA PLUIE DE COMET
-        self.attempt_fall()
+
         # COULEUR DE LA BARRE  (ROUGE)
         bar_color = (187, 11, 10)
         # COULEUR BAR BACKGROUND (NOIR)
