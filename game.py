@@ -3,6 +3,7 @@ import pygame.sprite
 
 from player import Player
 from monster import Monster
+from  comet_event import CometFallEvent
 
 class Game:
     def __init__(self):
@@ -12,6 +13,8 @@ class Game:
         self.all_players = pygame.sprite.Group()
         self.player = Player(self)
         self.all_players.add(self.player)
+        #GENERER COMET EVENT
+        self.comet_event = CometFallEvent(self)
         #GROUPE DE MONSTRE
         self.all_monsters = pygame.sprite.Group()
         self.pressed = {}
@@ -35,15 +38,22 @@ class Game:
         for monster in self.all_monsters:
             monster.forward()
             monster.update_health_bar(screen)
+        # RECUPERATION DES COMETS
+        for comet in self.comet_event.all_comets:
+            comet.fall()
         # IMG PLAYER
         screen.blit(self.player.image, self.player.rect)
         # ACTUALISER BAR DE VIE
         self.player.update_health_bar(screen)
+        #ACTUALISER BAR DE COMET
+        self.comet_event.update_bar(screen)
 
         # IMG PROJECTILE
         self.player.all_projectile.draw(screen)
         # IMG MONSTRE
         self.all_monsters.draw(screen)
+        #IMG COMET
+        self.comet_event.all_comets.draw(screen)
         # VERIFICATION DE LA DIRECTION DU JOUEUR
         if self.pressed.get(pygame.K_RIGHT) and self.player.rect.x + self.player.rect.width < screen.get_width():
             self.player.move_right()
