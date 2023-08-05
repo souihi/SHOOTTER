@@ -1,17 +1,17 @@
 #CLASS PLAYER
 import pygame
+import animation
 from projectile import Projectile
 
-class Player(pygame.sprite.Sprite):
+class Player(animation.AnimateSprite):
     def __init__(self, game):
-        super().__init__()
+        super().__init__('player')
         self.game = game
         self.health = 100
         self.max_health = 100
         self.attack = 20
         self.velocity = 2
         self.all_projectile = pygame.sprite.Group()
-        self.image = pygame.image.load('asset/player.png')
         self.rect = self.image.get_rect()
         self.rect.x = 400
         self.rect.y = 500
@@ -22,6 +22,9 @@ class Player(pygame.sprite.Sprite):
         else:
             #S\'IL N'A PLUS DE POINT DE VIE
             self.game.game_over()
+
+    def update_animation(self):
+        self.animate()
     def update_health_bar(self, surface):
         # COULEUR DE LA BARRE DE VIE (VERT)
         bar_color = (236, 255, 0 )
@@ -38,7 +41,8 @@ class Player(pygame.sprite.Sprite):
 
     #INSTANCE PROJECTILE
     def launch_projectile(self):
-        self.all_projectile.add(Projectile(self))
+        self.all_projectile.add(Projectile(self)) #INSTANCE PROJECTIL
+        self.start_animation() #DEMARRAGE DE L'ANIMATION LANCER
 
     #METHODE DEPLACEMENT JOUEUR
     def move_right(self):
